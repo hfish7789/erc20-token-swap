@@ -17,13 +17,9 @@ describe("Token Swap", () => {
   let erc20: any;
   let signers: any;
   beforeEach(async () => {
-
     signers = await ethers.getSigners();
 
-    const cocosToken = await ethers.getContractAt(
-      "ICocosToken",
-      "0x0C6f5F7D555E7518f6841a79436BD2b1Eef03381"
-    );
+    const cocosToken = await ethers.getContractAt("ICocosToken", "0x0C6f5F7D555E7518f6841a79436BD2b1Eef03381");
     const cocosOwner = "0x2c3febbd385467da7fedb88ca6dbfa317dc492f7";
 
     await signers[0].sendTransaction({
@@ -34,39 +30,24 @@ describe("Token Swap", () => {
 
     const cocosOwnerSigner = await ethers.provider.getSigner(cocosOwner);
 
-    await cocosToken
-      .connect(cocosOwnerSigner)
-      .addWhiteAccount("0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE");
+    await cocosToken.connect(cocosOwnerSigner).addWhiteAccount("0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE");
 
-    const tokenSwapFactory = await ethers.getContractFactory(
-      "TokenSwap",
-      signers[0]
-    );
+    const tokenSwapFactory = await ethers.getContractFactory("TokenSwap", signers[0]);
     tokenSwap = (await tokenSwapFactory.deploy()) as TokenSwap;
     await tokenSwap.deployed();
 
-    await cocosToken
-      .connect(cocosOwnerSigner)
-      .addWhiteAccount(tokenSwap.address);
+    await cocosToken.connect(cocosOwnerSigner).addWhiteAccount(tokenSwap.address);
 
-    await cocosToken
-      .connect(cocosOwnerSigner)
-      .addWhiteAccount("0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D");
+    await cocosToken.connect(cocosOwnerSigner).addWhiteAccount("0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D");
 
-    await cocosToken
-      .connect(cocosOwnerSigner)
-      .addWhiteAccount(signers[0].address);
+    await cocosToken.connect(cocosOwnerSigner).addWhiteAccount(signers[0].address);
 
-    erc20 = await ethers.getContractAt(
-      "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20",
-      ethers.constants.AddressZero
-    );
+    erc20 = await ethers.getContractAt("@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20", ethers.constants.AddressZero);
   });
 
   it("swap PUNDIX into WETH", async () => {
     const weth = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
     const whale = "0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE";
-
     const pundix = "0x0FD10b9899882a6f2fcb5c371E17e70FdEe00C38";
 
     const AMOUNT_IN = ethers.utils.parseEther("10");
