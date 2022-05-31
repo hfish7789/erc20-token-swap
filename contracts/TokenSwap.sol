@@ -7,12 +7,9 @@ import "./interfaces/IUniswapV2Pair.sol";
 import "./interfaces/IUniswapV2Factory.sol";
 
 contract TokenSwap {
-    address private constant UNISWAP_V2_ROUTER =
-        0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
-    address private constant UNISWAP_V2_FACTORY = 
-        0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
-    address private constant WETH = 
-        0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    address private constant UNISWAP_V2_ROUTER = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
+    address private constant UNISWAP_V2_FACTORY = 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
+    address private constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
     
     function swap(
         address _tokenIn,
@@ -63,11 +60,7 @@ contract TokenSwap {
         }
 
         // same length as path
-        uint[] memory amountOutMins = IUniswapV2Router(UNISWAP_V2_ROUTER)
-            .getAmountsOut(
-                _amountIn,
-                path
-            );
+        uint[] memory amountOutMins = IUniswapV2Router(UNISWAP_V2_ROUTER).getAmountsOut(_amountIn, path);
 
         return amountOutMins[path.length - 1];
     }
@@ -77,8 +70,7 @@ contract TokenSwap {
         view
         returns(address)
     {
-        address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY)
-            .getPair(token0, token1);
+        address pair = IUniswapV2Factory(UNISWAP_V2_FACTORY).getPair(token0, token1);
         return pair;
     }
 }
