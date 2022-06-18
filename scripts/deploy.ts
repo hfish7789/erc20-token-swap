@@ -9,8 +9,7 @@ async function main() {
   console.log("TokenSwap deployed to: ", contract.address);
 }
 
-main()
-  .then(() => process.exit(0))
+main().then(() => process.exit(0))
   .catch(error => {
     console.error(error);
     process.exit(1);
